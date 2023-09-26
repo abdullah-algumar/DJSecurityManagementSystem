@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+  db:
+    restart: always
+    container_name: postgres_guard
+    image: postgres
+    env_file:
+      - .env
+    volumes:
+      - /home/postgres_guard:/var/lib/postgresql/data:rw
+  web:
+    build: .
+    image: django
+    container_name: django_guard
+    env_file:
+      - .env
+    volumes:
+      - /home/django_guard:/home/abdullah
+    depends_on:
+      - db
+    ports:
+      - "8866:8866"
